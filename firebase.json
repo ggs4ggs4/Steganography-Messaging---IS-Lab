@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "steganography-messaging",
+  "private_key_id": "c2315feb41260b87e4dc26ef7445d6b69b5c4877",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDTiyZ1VmlrkytG\nM0KcbogfPXq6HT9FhEhn03/Hs217EmhRJFlYglZ8SYOBtbafx0r6N2W3NG4gN9In\nzzEyEFOkK6fGfaQS8WgN71bHrlkGpXzg3RWQttEqgV+o4zPHC84kr+Cq4quvapZx\n83aCt19lToQlIR/4Ee0SIAoeGrL87ksl+mf4CoVETxNDQDlmWkKVmQGxUUmYLBxu\nt8Q+Z8zsBplR7A0TJmsNJrjoZGCZ+CoHoUfaMmMjGmeDimhpdEqQPrbDz+VY3k40\nqx0cPOSmA9khGFwnO9ZMDrhsY+AyqxC5zWp5/nJ8dQupAT/cL6rU98Y4GQe1myZ0\nypHPmryPAgMBAAECggEAYR/WsPHTJfZkXG9Fin//FGTMN64c8iRZf/3tgXlCb0qU\nxYhsUwRIg/jWnZOZ/QLpzDbqBvLWCwnF/cwVeLhhRpNajPn7fk0C6r7z92r3aeNK\nEg2/jHk7UIokquxhxeYIJ/TuMFcw3zGPUFMpGrvpWyBw8IEkZeeJEpTOQGMewZwq\nWJy5sWdxMMUbhsa74AkJVuqvhzkd5g/uFQGyNEULkNdr6MzTuEXrEQbEJG1PN62L\nxWWPCa4Y4m2YUVTJSsoLpZx15dmX36GtP6mUwWmiQrgXvBhmZ5NOzN4oJ+tfdZ3d\n6m3Gevij7lngQCgQql1LUcPM62+5tYN4FK4Cb/FhLQKBgQD8J9gN+mSsyKTDPINy\nEHctl/1RJKrtJ/PQk/DzKacjfVNvrOm44Ett+q6iuzuvCgU0RcN7p8UWMdENsJId\nur9i2mymonzzNg57abw2pspNpLuJzy5DQfKQrUQ0swvZ45emvkLz130LQ9EvLHw2\n5U5QDxaCtfk17SwqZ0Nzu7v0YwKBgQDWxMxqFAf2eMdPNvzwqRu6n7SoHVOKFhRi\nDWjKD/KeIFZk40bbJHVzqAx+XyOrHh1cG8Iz4aAz/Q2eY+tBqdMQ/Df74xnnAops\n0VmCgv0spfsKgHbs1DRnK33e1tljmljfZOBOH0CWEgLpRyAV3x0ZoIiEBJAOHFzq\nyfg6zhxg5QKBgECmapOy5ksSqoPQKRd+tz++X1mFoDlr6+xHchi2Tj8gK9tPJyGa\niFxrUIkynivT0t/DH0q+Ch8VqLbs1Zm/vsA2pnLW6FhnPLFRu8r7WpUrrlW4A/GE\noA+ODRXB7kDwRHqg/4OLdWkE+0YwDqz4f+qw46GhzIKSC6fXkAjFUnxnAoGBAJeT\nwenERXJw/8oqtw5rbASlHu3f9MvqlWw2ppSl+Mgdbpw5xBJ6guKj4l12bEgjMvmF\nJeVUAqtumCQHxUxMvYipWiHOwMNICcaPYqs4I9NVOf7JeCXiBzIhge66mCcyEjNo\nkN7SM9U21RMrfbuyAmnJ4U+7oKg04GddMHLgcSr5AoGAfLa4tH7X7S/uE/jQQh8i\nVD8tGuUB3wCksvQFY+LXcVV0UAYFvIUdDOFsqvM3Xx+0wiQTNanZigD9NI3oJiHn\nNBp/TtpmiwgydwtkcN1b8e5PO2kzRod58QfsfgtXGUW5oyKm2G2MDzlxiYtntL9y\nsf91mFsSyIb1kgLbsLmqVY8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-zi2pz@steganography-messaging.iam.gserviceaccount.com",
+  "client_id": "113829305271010749986",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-zi2pz%40steganography-messaging.iam.gserviceaccount.com"
+}
