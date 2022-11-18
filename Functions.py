@@ -4,6 +4,13 @@ from firebase_admin import credentials,firestore
 from msvcrt import kbhit, getwch
 import time
 import sys
+
+def createUser():
+    pass
+    #create pq set and images
+    #store in user_data/keys
+    
+
 def newMessages():
     pass
     #checkin dbif new
@@ -21,7 +28,7 @@ def print_chatlist(new,others):
 def print_flush(*args):
     print(*args, end='')
     sys.stdout.flush()
-    
+
 def timed_input(prompt='', timeout=None):
     if timeout is None:
         return input(prompt)

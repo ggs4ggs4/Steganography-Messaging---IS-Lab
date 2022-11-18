@@ -19,7 +19,8 @@ try:
     #open('abc.txt')
 except:
     pass
-    #create and open users stored private key file/img
+    createUser()
+    #open users stored private key file/img
     #open('abc.txt')
 
 #============display/functioning================
@@ -30,4 +31,8 @@ while True:
     others=chatList(new)
     print_chatlist(new, others)
     inp = timed_input("You have ten seconds to answer!",10)
-    print(inp)
+    if inp != None:
+        print(inp)
+        cl=new+others
+        display(cl,inp)
+    
