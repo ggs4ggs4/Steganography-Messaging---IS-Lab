@@ -5,6 +5,14 @@ from msvcrt import kbhit, getwch
 import time
 import sys,os
 
+def EncodeSteg(img,string):
+    pass
+#return encoded image
+
+def DecodeSteg(img):
+    pass
+#return decoded string
+
 def createUser():
     pass
     #create pq set and images
