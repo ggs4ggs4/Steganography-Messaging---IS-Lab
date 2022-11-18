@@ -3,27 +3,43 @@ import firebase_admin
 from firebase_admin import credentials,firestore
 from msvcrt import kbhit, getwch
 import time
-import sys
+import sys,os
 
 def createUser():
     pass
     #create pq set and images
     #store in user_data/keys
-    
+
+def display(allUsers,User):
+    pass
+    #display the message history with the selected user
+    #let user enter a message or return to the chat list screen
+    os.system('cls')
+    print("Message (Enter to return): ",end='')
+    message = input()
+    if message=="":
+        return ""
+    else:
+        EncodeAndSend(message)#add key and name etc if needed to the arguments
+        return "ReDisplay"
+
+def EncodeAndSend(message):
+    #encode
+    #send
+    #update receivers newmessage entry in db
+    return
 
 def newMessages():
     pass
     #checkin dbif new
     #return list of new
 
-def chatlist(new):
+def chatList(new):
     pass
-    #import all text files 
-    #print indexed files
-    #retrn chatlist without new 
-
-def print_chatlist(new,others):
-    pass
+    os.system('cls')
+    #import all text files names
+    #print indexed names
+    #retrn chatlist with new at start new 
 
 def print_flush(*args):
     print(*args, end='')

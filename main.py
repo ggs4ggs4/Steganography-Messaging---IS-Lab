@@ -28,11 +28,11 @@ except:
 
 while True:
     new=newMessages()
-    others=chatList(new)
-    print_chatlist(new, others)
+    allUsers=chatList(new)
     inp = timed_input("You have ten seconds to answer!",10)
-    if inp != None:
+    if inp != None and inp!="":
         print(inp)
-        cl=new+others
-        display(cl,inp)
-    
+        while True:
+            returned= display(allUsers,int(inp))
+            if returned=="":
+                break
