@@ -1,3 +1,0 @@
-You: Hello
-You: Hello again
-You: Firse Hello
