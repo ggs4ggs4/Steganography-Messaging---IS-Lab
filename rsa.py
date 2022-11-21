@@ -42,7 +42,7 @@ def inverse(number, base):
     return x % base
 
 
-def generate_key(bit_count=40):
+def generate_key(bit_count=9):
     ''' generate a pair of keys; private key: (d, n)  and public key: (e, n) '''
     
     while(True):
@@ -67,17 +67,31 @@ def generate_key(bit_count=40):
     return (d, n), (e, n)
 
     
-def encrypt(char_plain, public_key):
+def e(char_plain, public_key):
     ''' encrypt char_plain using public_key (e, n) '''
     
     e, n = public_key[0], public_key[1]
-    block_cipher = pow(ord(char_plain), e) % n
+    block_cipher = chr(pow(ord(char_plain), e) % n)
     return block_cipher
 
 
-def decrypt(block_cipher, private_key):
+def d(block_cipher, private_key):
     ''' decrypt block_cipher using private_key (d, n) '''
     
     d, n = private_key[0], private_key[1]
     char_plain = chr(pow((block_cipher % n), d) % n)
     return char_plain
+
+def encrypt(plaintext,public_key):
+    cypher=""
+    for i in plaintext:
+        print(i)
+        cypher+=e(i,public_key)
+    return cypher
+
+def decrypt(cypher,private_key):
+    plaintext=""
+    for i in cypher:
+        print(i)
+        plaintext+=e(i,private_key)
+    return plaintext

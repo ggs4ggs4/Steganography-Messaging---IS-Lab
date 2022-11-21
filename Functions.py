@@ -83,42 +83,82 @@ def stego_example():
     print(textd)
   
 
-def createUser():
+def createUser(db):
+    print("Enter your name: ",end='')
+    userName=input()
     pub,pvt=generate_key()
     with open("./user_data/keys/rsa.txt","w") as file:
+        file.write(userName+'\n')
         file.write(str(pub[0])+','+str(pub[1])+'\n')
         file.write(str(pvt[0])+','+str(pvt[1])+'\n')
-    
-    #create random image
     #upload to db
+    db.collection("user_public").document(userName).create({"rsaKey":str(pub)})
 
-def display(allUsers,User):
-    pass
-    #display the message history with the selected user
-    #let user enter a message or return to the chat list screen
-    os.system('cls')
-    print("Message (Enter to return): ",end='')
-    message = input()
-    if message=="":
-        return ""
-    else:
-        EncodeAndSend(message)#add key and name etc if needed to the arguments
-        return "ReDisplay"
+def display(allUsers,User,publicKey,db,userName):
+    if User>= len(allUsers):
+        pass
+    else:  
+        #display the message history with the selected user
+        os.system('cls')
+        try:
+            with open("./user_data/messages/"+allUsers[User-1]+".txt","r") as file:
+                print(file.read())
+        except:
+            pass
+        #let user enter a message or return to the chat list screen
+        print("Message (Enter to return): ",end='')
+        message = input()
+        if message=="":
+            return ""
+        else:
+            
+            with open("./user_data/messages/"+allUsers[User-1]+".txt","a") as file:
+                file.write("You: "+message+"\n")
+            message=userName+": "+message+"\n"
+            EncodeAndSend(message,publicKey,db,userName,allUsers[User-1])#add key and name etc if needed to the arguments
+            return "ReDisplay"
 
-def EncodeAndSend(message):
+def EncodeAndSend(message,publicKey,db,userName,to):
     #encode
+    cypher=encrypt(message,publicKey)
+    stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
+    newimage=stegEncode(stegImg,cypher)
+    newimage.save("Encoded_image.jpg")
+    with open("Encoded_image.jpg","rb") as file:
+        txt=file.read()
     #send
+    # db.collection("user_public").document(userName).update({cypher:txt})
+    # x=0
+    # for i in db.collection("user_public").get():
+    #     for j in i.to_dict().values():
+    #         x+=1
+    #         with open(str(x)+".jpg","wb") as file:
+    #             file.write(j)
     #update receivers newmessage entry in db
     return
 
 def newMessages():
-    pass
+    return ["u3"]
     #checkin dbif new
     #return list of new
 
 def chatList(new):
-    pass
     os.system('cls')
+    all=os.listdir("./user_data/messages")
+    if len(new)!=0:
+        print("New Messages :")
+        for i in range(len(new)):
+            print(f"\t{i+1}.",new[i])
+    print("Old Messages :")
+    all_o= []
+    all_o.extend(new) 
+    for i in range(len(all)):
+        if all[i][:-4] not in new:
+            all_o.append(all[i][:-4])
+    for i in range(len(new),len(all_o)):
+        print(f"\t{i+1}.",all_o[i])
+    return all_o
+        
     #import all text files names
     #print indexed names
     #retrn chatlist with new at start new 

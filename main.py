@@ -12,32 +12,36 @@ cred = credentials.Certificate('firebase.json') # Initialize the app with a serv
 firebase_admin.initialize_app(cred) # As an admin, the app has access to read and write all data, regradless of Security Rules
 db=firestore.client()
 for i in db.collection("user_public").get():
-    print(i.id, i.to_dict())
+    #print(i.id, i.to_dict())
+    pass
 
 #============load user================
 try:
     #open users stored private key file/img
     with open("./user_data/keys/rsa.txt","r") as file:
+        userName=file.readline().strip('\n')
         publicKey=tuple(map(int,file.readline().split(',')))
         privateKey=tuple(map(int,file.readline().split(',')))       
         stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
 except:
     #create users stored private key file/img
-    createUser()
+    createUser(db)
     #open users stored private key file/img
     with open("./user_data/keys/rsa.txt","r") as file:
+        userName=file.readline()
         publicKey=tuple(map(int,file.readline().split(',')))
         privateKey=tuple(map(int,file.readline().split(',')))       
         stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
 
 #============display/functioning================
 while True:
+    print("Hello, "+userName)
     new=newMessages()
     allUsers=chatList(new)
-    inp = timed_input("You have ten seconds to answer!",10)
+    inp = timed_input("Select User: ",10)
     if inp != None and inp!="":
         print(inp)
         while True:
-            returned= display(allUsers,int(inp))
+            returned= display(allUsers,int(inp),publicKey,db,userName)
             if returned=="":
                 break
