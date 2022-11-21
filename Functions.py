@@ -168,14 +168,18 @@ def EncodeAndSend(message,db,userName,to,messageNumber):
 
 def newMessages(db,userName):
     #checkin db if new
-    res = db.collection("new_messages").document(userName).get()
-    res = res.to_dict()
-    new=[]
-    #return list of new
-    for i in res:
-        if res[i] == True:
-            new.append(i)
-    return new
+
+    try:
+        res = db.collection("new_messages").document(userName).get()
+        res = res.to_dict()
+        new=[]
+        #return list of new
+        for i in res:
+            if res[i] == True:
+                new.append(i)
+        return new
+    except:
+        return []
 
 def chatList(new,userName):
     os.system('cls')
