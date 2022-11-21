@@ -95,7 +95,7 @@ def createUser(db):
     db.collection("user_public").document(userName).create({"rsaKey":str(pub)})
     db.collection("new_messages").document(userName).create({"null":False})
 
-def display(allUsers,User,publicKey,db,userName,new=False):
+def display(allUsers,User,privateKey,db,userName,new=False):
     if User>= len(allUsers):
         os.system('cls')
         print("Enter Name: ",end='')
@@ -107,12 +107,14 @@ def display(allUsers,User,publicKey,db,userName,new=False):
         #display the message history with the selected user
         os.system('cls')
         if new:
-            with open("./user_data/messages/"+allUsers[User-1]+".txt","a") as file:
-                db.collection("new_messages").document(userName).update({allUsers[User-1]:False})
-                result=db.collection("to,from").document(userName+","+allUsers[User-1]).get()
-                result=result.to_dict()
-                result=sorted(dict.items())
-                print(result)
+            
+            db.collection("new_messages").document(userName).update({allUsers[User]:False})
+            result=db.collection("to,from").document(userName+","+allUsers[User]).get()
+            db.collection("to,from").document(userName+","+allUsers[User]).delete()
+
+            result=result.to_dict()
+            result=sorted(dict.items())
+            DecodeAndWrite(result,privateKey,allUsers[User])
     with open("./user_data/messages/"+allUsers[User]+".txt","r") as file:
         print(file.read())
     #let user enter a message or return to the chat list screen
@@ -121,14 +123,30 @@ def display(allUsers,User,publicKey,db,userName,new=False):
     if message=="":
         return ""
     else:
-        
         with open("./user_data/messages/"+allUsers[User]+".txt","a") as file:
             file.write("You: "+message+"\n")
         message=userName+": "+message+"\n"
-        EncodeAndSend(message,publicKey,db,userName,allUsers[User],str(time.time()))#add key and name etc if needed to the arguments
+        EncodeAndSend(message,db,userName,allUsers[User],str(time.time()))#add key and name etc if needed to the arguments
         return "ReDisplay"
 
-def EncodeAndSend(message,publicKey,db,userName,to,messageNumber):
+def DecodeAndWrite(messages,pk,name):
+    with open("./user_data/messages/"+name+".txt","a") as file:
+        for i in messages:
+            message=i[1]
+            with open("Decode_image.jpg","wb") as file1:
+                file1.write(message)
+            decode = Image.open("Decode_image", 'r')
+            decoded = stegDecode(decode)
+            decrypted = decrypt(decoded,pk)
+            file.write(decrypted)
+        # for i in db.collection("user_public").get():
+    #     for j in i.to_dict().values():
+    #         x+=1
+    #         with open(str(x)+".jpg","wb") as file:
+    #             file.write(j)
+    return
+
+def EncodeAndSend(message,db,userName,to,messageNumber):
     #encode
     result=db.collection("user_public").document(to).get()
     result=result.to_dict()
@@ -142,19 +160,11 @@ def EncodeAndSend(message,publicKey,db,userName,to,messageNumber):
         txt=file.read()
     #send
     db.collection("new_messages").document(to).update({userName:True})
+    #update receivers newmessage entry in db
     try:
         db.collection("to,from").document(to+','+userName).update({messageNumber:txt})
     except:
         db.collection("to,from").document(to+','+userName).create({messageNumber:txt})
-    # db.collection("user_public").document(userName).update({cypher:txt})
-    # x=0
-    # for i in db.collection("user_public").get():
-    #     for j in i.to_dict().values():
-    #         x+=1
-    #         with open(str(x)+".jpg","wb") as file:
-    #             file.write(j)
-    #update receivers newmessage entry in db
-def DecodeAndWrite():
 
 def newMessages(db,userName):
     #checkin db if new
