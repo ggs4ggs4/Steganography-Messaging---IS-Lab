@@ -36,7 +36,7 @@ except:
 #============display/functioning================
 while True:
     
-    new=newMessages()
+    new=newMessages(db,userName)
     allUsers=chatList(new,userName)
     inp = timed_input("Select User: ",10)
     if inp != None and inp!="":

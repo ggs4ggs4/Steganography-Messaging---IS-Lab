@@ -83,7 +83,6 @@ def stego_example():
     textd=decode(newimage)
     print(textd)
   
-
 def createUser(db):
     print("Enter your name: ",end='')
     userName=input()
@@ -155,12 +154,18 @@ def EncodeAndSend(message,publicKey,db,userName,to,messageNumber):
     #         with open(str(x)+".jpg","wb") as file:
     #             file.write(j)
     #update receivers newmessage entry in db
+def DecodeAndWrite():
 
-
-def newMessages():
-    return []
-    #checkin dbif new
+def newMessages(db,userName):
+    #checkin db if new
+    res = db.collection("new_messages").document(userName).get()
+    res = res.to_dict()
+    new=[]
     #return list of new
+    for i in res:
+        if res[i] == True:
+            new.append(i)
+    return new
 
 def chatList(new,userName):
     os.system('cls')
