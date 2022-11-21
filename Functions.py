@@ -135,11 +135,11 @@ def DecodeAndWrite(messages,pk,name):
     with open("./user_data/messages/"+name+".txt","a") as file:
         for i in messages:
             message=i[1]
-            with open("Decode_image.jpg","wb") as file1:
+            with open("Decode_image.png","wb") as file1:
                 file1.write(message)
                 
             
-            decoded = decodeLSB("Decode_image.jpg")
+            decoded = decodeLSB("Decode_image.png")
             print(decoded)
             decrypted = decrypt(decoded,pk)
             print(decrypted)
@@ -158,8 +158,8 @@ def EncodeAndSend(message,db,userName,to,messageNumber):
     publicKey=ast.literal_eval(result["rsaKey"])
     
     cypher=encrypt(message,publicKey)
-    encodeLSB(cypher, "./user_data/keys/stegimg.jpg", "Encoded_image.jpg")
-    with open("Encoded_image.jpg","rb") as file:
+    encodeLSB(cypher, "./user_data/keys/stegimg.jpg", "Encoded_image")
+    with open("Encoded_image.png","rb") as file:
         txt=file.read()
     #send
     db.collection("new_messages").document(to).update({userName:True})

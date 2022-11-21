@@ -1,6 +1,6 @@
 from PIL import Image
 
-bitsPerChar = 8
+bitsPerChar = 16
 bitsPerPixel = 3
 maxBitStuffing = 2
 extension = "png"

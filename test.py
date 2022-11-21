@@ -6,9 +6,13 @@ import time
 import sys
 from Functions import*
 from rsa import*
-cred = credentials.Certificate('firebase.json') # Initialize the app with a service account, granting admin privileges
-firebase_admin.initialize_app(cred) # As an admin, the app has access to read and write all data, regradless of Security Rules
-db=firestore.client()
-result=db.collection("to,from").document("Ibrahim-ganesh").get()
-#result=db.collection("user_public").document("Ibrahim").get()
-print(result.to_dict())
+from steg import*
+
+
+
+e= encrypt("heloo how arar 8",(1979,3233))
+
+encodeLSB(e, "./user_data/keys/stegimg.jpg", "Encoded_image2")
+res = decodeLSB("Encoded_image2.png")
+d=decrypt(res,(659,3233))
+print(d)
