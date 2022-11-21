@@ -98,11 +98,12 @@ def createUser(db):
 
 def display(allUsers,User,publicKey,db,userName,new=False):
     if User>= len(allUsers):
+        os.system('cls')
         print("Enter Name: ",end='')
         extra=input()
         open("./user_data/messages/"+extra+".txt","w")
         allUsers.append(extra)
-        os.system('cls')
+        return ''
     else:  
         #display the message history with the selected user
         os.system('cls')
@@ -113,7 +114,7 @@ def display(allUsers,User,publicKey,db,userName,new=False):
                 result=result.to_dict()
                 result=sorted(dict.items())
                 print(result)
-    with open("./user_data/messages/"+allUsers[User-1]+".txt","r") as file:
+    with open("./user_data/messages/"+allUsers[User]+".txt","r") as file:
         print(file.read())
     #let user enter a message or return to the chat list screen
     print("Message (Enter to return): ",end='')
@@ -122,10 +123,10 @@ def display(allUsers,User,publicKey,db,userName,new=False):
         return ""
     else:
         
-        with open("./user_data/messages/"+allUsers[User-1]+".txt","a") as file:
+        with open("./user_data/messages/"+allUsers[User]+".txt","a") as file:
             file.write("You: "+message+"\n")
         message=userName+": "+message+"\n"
-        EncodeAndSend(message,publicKey,db,userName,allUsers[User-1],str(time.time()))#add key and name etc if needed to the arguments
+        EncodeAndSend(message,publicKey,db,userName,allUsers[User],str(time.time()))#add key and name etc if needed to the arguments
         return "ReDisplay"
 
 def EncodeAndSend(message,publicKey,db,userName,to,messageNumber):
@@ -161,8 +162,9 @@ def newMessages():
     #checkin dbif new
     #return list of new
 
-def chatList(new):
+def chatList(new,userName):
     os.system('cls')
+    print("Hello, "+userName)
     all=os.listdir("./user_data/messages")
     if len(new)!=0:
         print("New Messages :")

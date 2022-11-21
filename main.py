@@ -35,13 +35,12 @@ except:
 
 #============display/functioning================
 while True:
-    print("Hello, "+userName)
+    
     new=newMessages()
-    allUsers=chatList(new)
+    allUsers=chatList(new,userName)
     inp = timed_input("Select User: ",10)
     if inp != None and inp!="":
-        print(inp)
         while True:
-            returned= display(allUsers,int(inp),publicKey,db,userName,int(inp)<len(allUsers) and allUsers[int(inp)] in new)
+            returned= display(allUsers,int(inp)-1,publicKey,db,userName,int(inp)<len(allUsers) and allUsers[int(inp)-1] in new)
             if returned=="":
                 break

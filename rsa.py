@@ -92,6 +92,5 @@ def encrypt(plaintext,public_key):
 def decrypt(cypher,private_key):
     plaintext=""
     for i in cypher:
-        print(i)
         plaintext+=e(i,private_key)
     return plaintext
