@@ -111,8 +111,8 @@ def display(allUsers,User,privateKey,db,userName,new=False):
         if new:
             
             db.collection("new_messages").document(userName).update({allUsers[User]:False})
-            result=db.collection("to,from").document(userName+","+allUsers[User]).get()
-            db.collection("to,from").document(userName+","+allUsers[User]).delete()
+            result=db.collection("to,from").document(userName+"-"+allUsers[User]).get()
+            db.collection("to,from").document(userName+"-"+allUsers[User]).delete()
 
             result=result.to_dict()
             result=sorted(list(result.items()))
@@ -165,9 +165,9 @@ def EncodeAndSend(message,db,userName,to,messageNumber):
     db.collection("new_messages").document(to).update({userName:True})
     #update receivers newmessage entry in db
     try:
-        db.collection("to,from").document(to+','+userName).update({messageNumber:txt})
+        db.collection("to,from").document(to+'-'+userName).update({messageNumber:txt})
     except:
-        db.collection("to,from").document(to+','+userName).create({messageNumber:txt})
+        db.collection("to,from").document(to+'-'+userName).create({messageNumber:txt})
 
 def newMessages(db,userName):
     #checkin db if new
