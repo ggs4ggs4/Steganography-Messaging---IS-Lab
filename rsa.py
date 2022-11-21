@@ -79,18 +79,17 @@ def d(block_cipher, private_key):
     ''' decrypt block_cipher using private_key (d, n) '''
     
     d, n = private_key[0], private_key[1]
-    char_plain = chr(pow((block_cipher % n), d) % n)
+    char_plain = chr(pow((ord(block_cipher )% n), d) % n)
     return char_plain
 
 def encrypt(plaintext,public_key):
     cypher=""
     for i in plaintext:
-        print(i)
         cypher+=e(i,public_key)
     return cypher
 
 def decrypt(cypher,private_key):
     plaintext=""
     for i in cypher:
-        plaintext+=e(i,private_key)
+        plaintext+=d(i,private_key)
     return plaintext

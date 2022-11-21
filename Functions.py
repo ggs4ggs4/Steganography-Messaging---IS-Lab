@@ -7,6 +7,7 @@ import time
 import sys,os
 from PIL import Image
 from rsa import*
+from steg import *
 def genData(data):
         newd = []
         for i in data:
@@ -75,12 +76,13 @@ def stegDecode(img):
             return data
             
 def stego_example():
-    img='stego img.jpg';        
+    img='./user_data/keys/stegimg.jpg';        
     img = Image.open(img, 'r')
     text="this needs to be decoded"
-    newimage=encode(img,text)
+    newimage=stegEncode(img,text)
     newimage.save("Encoded_image.jpg")
-    textd=decode(newimage)
+    newimage=Image.open("Encoded_image.jpg","r")
+    textd=stegDecode(newimage)
     print(textd)
   
 def createUser(db):
@@ -113,7 +115,7 @@ def display(allUsers,User,privateKey,db,userName,new=False):
             db.collection("to,from").document(userName+","+allUsers[User]).delete()
 
             result=result.to_dict()
-            result=sorted(dict.items())
+            result=sorted(list(result.items()))
             DecodeAndWrite(result,privateKey,allUsers[User])
     with open("./user_data/messages/"+allUsers[User]+".txt","r") as file:
         print(file.read())
@@ -135,9 +137,12 @@ def DecodeAndWrite(messages,pk,name):
             message=i[1]
             with open("Decode_image.jpg","wb") as file1:
                 file1.write(message)
-            decode = Image.open("Decode_image", 'r')
-            decoded = stegDecode(decode)
+                
+            
+            decoded = decodeLSB("Decode_image.jpg")
+            print(decoded)
             decrypted = decrypt(decoded,pk)
+            print(decrypted)
             file.write(decrypted)
         # for i in db.collection("user_public").get():
     #     for j in i.to_dict().values():
@@ -153,9 +158,7 @@ def EncodeAndSend(message,db,userName,to,messageNumber):
     publicKey=ast.literal_eval(result["rsaKey"])
     
     cypher=encrypt(message,publicKey)
-    stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
-    newimage=stegEncode(stegImg,cypher)
-    newimage.save("Encoded_image.jpg")
+    encodeLSB(cypher, "./user_data/keys/stegimg.jpg", "Encoded_image.jpg")
     with open("Encoded_image.jpg","rb") as file:
         txt=file.read()
     #send
