@@ -5,19 +5,17 @@ from msvcrt import kbhit, getwch
 import time
 import sys,os
 from PIL import Image
-
+from rsa import*
 def genData(data):
         newd = []
- 
         for i in data:
             newd.append(format(ord(i), '08b'))
         return newd
+
 def modPix(pix, data):
- 
     datalist = genData(data)
     lendata = len(datalist)
     imdata = iter(pix)
- 
     for i in range(lendata):
         pix = [value for value in imdata.__next__()[:3] +
                                 imdata.__next__()[:3] +
@@ -37,11 +35,9 @@ def modPix(pix, data):
                     pix[-1] -= 1
                 else:
                     pix[-1] += 1
- 
         else:
             if (pix[-1] % 2 != 0):
                 pix[-1] -= 1
- 
         pix = tuple(pix)
         yield pix[0:3]
         yield pix[3:6]
@@ -51,7 +47,6 @@ def stegEncode(img, data):
     newimg=img.copy()
     w = newimg.size[0]
     (x, y) = (0, 0)
- 
     for pixel in modPix(newimg.getdata(), data):
         newimg.putpixel((x, y), pixel)
         if (x == w - 1):
@@ -59,26 +54,25 @@ def stegEncode(img, data):
             y += 1
         else:
             x += 1
-    return newimg        
+    return newimg  
+
 def stegDecode(img):
     data = ''
     imgdata = iter(img.getdata())
- 
     while (True):
         pixels = [value for value in imgdata.__next__()[:3] +
                                 imgdata.__next__()[:3] +
                                 imgdata.__next__()[:3]]
         binstr = ''
- 
         for i in pixels[:8]:
             if (i % 2 == 0):
                 binstr += '0'
             else:
                 binstr += '1'
- 
         data += chr(int(binstr, 2))
         if (pixels[-1] % 2 != 0):
             return data
+            
 def stego_example():
     img='stego img.jpg';        
     img = Image.open(img, 'r')
@@ -90,9 +84,13 @@ def stego_example():
   
 
 def createUser():
-    pass
-    #create pq set and images
-    #store in user_data/keys
+    pub,pvt=generate_key()
+    with open("./user_data/keys/rsa.txt","w") as file:
+        file.write(str(pub[0])+','+str(pub[1])+'\n')
+        file.write(str(pvt[0])+','+str(pvt[1])+'\n')
+    
+    #create random image
+    #upload to db
 
 def display(allUsers,User):
     pass

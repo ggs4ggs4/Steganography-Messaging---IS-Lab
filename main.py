@@ -5,6 +5,8 @@ from msvcrt import kbhit, getwch
 import time
 import sys
 from Functions import*
+from rsa import*
+
 #============firebase================
 cred = credentials.Certificate('firebase.json') # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred) # As an admin, the app has access to read and write all data, regradless of Security Rules
@@ -14,18 +16,21 @@ for i in db.collection("user_public").get():
 
 #============load user================
 try:
-    pass
     #open users stored private key file/img
-    #open('abc.txt')
+    with open("./user_data/keys/rsa.txt","r") as file:
+        publicKey=tuple(map(int,file.readline().split(',')))
+        privateKey=tuple(map(int,file.readline().split(',')))       
+        stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
 except:
-    pass
+    #create users stored private key file/img
     createUser()
     #open users stored private key file/img
-    #open('abc.txt')
+    with open("./user_data/keys/rsa.txt","r") as file:
+        publicKey=tuple(map(int,file.readline().split(',')))
+        privateKey=tuple(map(int,file.readline().split(',')))       
+        stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
 
 #============display/functioning================
-
-
 while True:
     new=newMessages()
     allUsers=chatList(new)

@@ -42,7 +42,7 @@ def inverse(number, base):
     return x % base
 
 
-def generate_key(bit_count):
+def generate_key(bit_count=40):
     ''' generate a pair of keys; private key: (d, n)  and public key: (e, n) '''
     
     while(True):
@@ -64,7 +64,7 @@ def generate_key(bit_count):
             break
         
     d = inverse(e, phi_n)
-    return [(d, n), (e, n)]
+    return (d, n), (e, n)
 
     
 def encrypt(char_plain, public_key):
