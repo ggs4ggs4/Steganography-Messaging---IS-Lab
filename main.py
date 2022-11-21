@@ -38,7 +38,7 @@ while True:
     
     new=newMessages(db,userName)
     allUsers=chatList(new,userName)
-    inp = timed_input("Select User: ",10)
+    inp = timed_input("Select User: ",5)
     if inp != None and inp!="":
         while True:
             returned= display(allUsers,int(inp)-1,privateKey,db,userName,int(inp)<=len(allUsers) and allUsers[int(inp)-1] in new)
