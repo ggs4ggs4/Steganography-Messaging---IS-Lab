@@ -42,7 +42,7 @@ def inverse(number, base):
     return x % base
 
 
-def generate_key(bit_count=6):
+def generate_key(bit_count=5):
     ''' generate a pair of keys; private key: (d, n)  and public key: (e, n) '''
     
     while(True):

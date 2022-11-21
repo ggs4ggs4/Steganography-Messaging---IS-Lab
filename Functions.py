@@ -128,7 +128,7 @@ def display(allUsers,User,privateKey,db,userName,new=False):
         with open("./user_data/messages/"+allUsers[User]+".txt","a") as file:
             file.write("You: "+message+"\n")
         message=userName+": "+message+"\n"
-        EncodeAndSend(message,db,userName,allUsers[User],str(time.time()))#add key and name etc if needed to the arguments
+        EncodeAndSend(message,db,userName,allUsers[User],str(int(time.time())))#add key and name etc if needed to the arguments
         return "ReDisplay"
 
 def DecodeAndWrite(messages,pk,name):
