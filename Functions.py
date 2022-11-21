@@ -109,14 +109,16 @@ def display(allUsers,User,privateKey,db,userName,new=False):
         #display the message history with the selected user
         os.system('cls')
         if new:
-            
-            db.collection("new_messages").document(userName).update({allUsers[User]:False})
-            result=db.collection("to,from").document(userName+"-"+allUsers[User]).get()
-            db.collection("to,from").document(userName+"-"+allUsers[User]).delete()
+            try:
+                db.collection("new_messages").document(userName).update({allUsers[User]:False})
+                result=db.collection("to,from").document(userName+"-"+allUsers[User]).get()
+                db.collection("to,from").document(userName+"-"+allUsers[User]).delete()
 
-            result=result.to_dict()
-            result=sorted(list(result.items()))
-            DecodeAndWrite(result,privateKey,allUsers[User])
+                result=result.to_dict()
+                result=sorted(list(result.items()))
+                DecodeAndWrite(result,privateKey,allUsers[User])
+            except:
+                pass
     with open("./user_data/messages/"+allUsers[User]+".txt","r") as file:
         print(file.read())
     #let user enter a message or return to the chat list screen
@@ -137,12 +139,9 @@ def DecodeAndWrite(messages,pk,name):
             message=i[1]
             with open("Decode_image.png","wb") as file1:
                 file1.write(message)
-                
-            
-            decoded = decodeLSB("Decode_image.png")
-            print(decoded)
+ 
+            decoded = decodeLSB("Decode_image.png")    
             decrypted = decrypt(decoded,pk)
-            print(decrypted)
             file.write(decrypted)
         # for i in db.collection("user_public").get():
     #     for j in i.to_dict().values():
