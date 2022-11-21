@@ -42,6 +42,6 @@ while True:
     if inp != None and inp!="":
         print(inp)
         while True:
-            returned= display(allUsers,int(inp),publicKey,db,userName)
+            returned= display(allUsers,int(inp),publicKey,db,userName,int(inp)<len(allUsers) and allUsers[int(inp)] in new)
             if returned=="":
                 break

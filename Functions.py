@@ -1,4 +1,5 @@
 from __future__ import print_function
+import ast
 import firebase_admin
 from firebase_admin import credentials,firestore
 from msvcrt import kbhit, getwch
@@ -93,33 +94,46 @@ def createUser(db):
         file.write(str(pvt[0])+','+str(pvt[1])+'\n')
     #upload to db
     db.collection("user_public").document(userName).create({"rsaKey":str(pub)})
+    db.collection("new_messages").document(userName).create({"null":False})
 
-def display(allUsers,User,publicKey,db,userName):
+def display(allUsers,User,publicKey,db,userName,new=False):
     if User>= len(allUsers):
-        pass
+        print("Enter Name: ",end='')
+        extra=input()
+        open("./user_data/messages/"+extra+".txt","w")
+        allUsers.append(extra)
+        os.system('cls')
     else:  
         #display the message history with the selected user
         os.system('cls')
-        try:
-            with open("./user_data/messages/"+allUsers[User-1]+".txt","r") as file:
-                print(file.read())
-        except:
-            pass
-        #let user enter a message or return to the chat list screen
-        print("Message (Enter to return): ",end='')
-        message = input()
-        if message=="":
-            return ""
-        else:
-            
+        if new:
             with open("./user_data/messages/"+allUsers[User-1]+".txt","a") as file:
-                file.write("You: "+message+"\n")
-            message=userName+": "+message+"\n"
-            EncodeAndSend(message,publicKey,db,userName,allUsers[User-1])#add key and name etc if needed to the arguments
-            return "ReDisplay"
+                db.collection("new_messages").document(userName).update({allUsers[User-1]:False})
+                result=db.collection("to,from").document(userName+","+allUsers[User-1]).get()
+                result=result.to_dict()
+                result=sorted(dict.items())
+                print(result)
+    with open("./user_data/messages/"+allUsers[User-1]+".txt","r") as file:
+        print(file.read())
+    #let user enter a message or return to the chat list screen
+    print("Message (Enter to return): ",end='')
+    message = input()
+    if message=="":
+        return ""
+    else:
+        
+        with open("./user_data/messages/"+allUsers[User-1]+".txt","a") as file:
+            file.write("You: "+message+"\n")
+        message=userName+": "+message+"\n"
+        EncodeAndSend(message,publicKey,db,userName,allUsers[User-1],str(time.time()))#add key and name etc if needed to the arguments
+        return "ReDisplay"
 
-def EncodeAndSend(message,publicKey,db,userName,to):
+def EncodeAndSend(message,publicKey,db,userName,to,messageNumber):
     #encode
+    result=db.collection("user_public").document(to).get()
+    result=result.to_dict()
+    publicKey=ast.literal_eval(result["rsaKey"])
+    
     cypher=encrypt(message,publicKey)
     stegImg=Image.open("./user_data/keys/stegimg.jpg", 'r') 
     newimage=stegEncode(stegImg,cypher)
@@ -127,6 +141,11 @@ def EncodeAndSend(message,publicKey,db,userName,to):
     with open("Encoded_image.jpg","rb") as file:
         txt=file.read()
     #send
+    db.collection("new_messages").document(to).update({userName:True})
+    try:
+        db.collection("to,from").document(to+','+userName).update({messageNumber:txt})
+    except:
+        db.collection("to,from").document(to+','+userName).create({messageNumber:txt})
     # db.collection("user_public").document(userName).update({cypher:txt})
     # x=0
     # for i in db.collection("user_public").get():
@@ -135,10 +154,10 @@ def EncodeAndSend(message,publicKey,db,userName,to):
     #         with open(str(x)+".jpg","wb") as file:
     #             file.write(j)
     #update receivers newmessage entry in db
-    return
+
 
 def newMessages():
-    return ["u3"]
+    return []
     #checkin dbif new
     #return list of new
 
@@ -157,6 +176,7 @@ def chatList(new):
             all_o.append(all[i][:-4])
     for i in range(len(new),len(all_o)):
         print(f"\t{i+1}.",all_o[i])
+    print(f"\t{len(all_o)+1}.","New")
     return all_o
         
     #import all text files names
@@ -190,3 +210,6 @@ def timed_input(prompt='', timeout=None):
         response = None
     print()
     return response
+
+
+
